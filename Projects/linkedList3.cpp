@@ -185,10 +185,7 @@ public:
 	
 	T top()
     {
-        Box<T>* crr;
-        crr = first;
-
-        return first->data;
+         return first->data;
     }
 
     template<class U>
