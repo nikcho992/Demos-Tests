@@ -182,6 +182,14 @@ public:
         delete save;
 
     }
+	
+	T top()
+    {
+        Box<T>* crr;
+        crr = first;
+
+        return first->data;
+    }
 
     template<class U>
     friend ostream& operator <<(ostream& out,const List<U>& list);
