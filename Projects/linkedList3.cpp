@@ -171,6 +171,17 @@ public:
 
         return *this;
     }
+	
+	 void pop()
+    {
+         Box<T>* save;
+
+         save = first;
+         first = first->next;
+
+        delete save;
+
+    }
 
     template<class U>
     friend ostream& operator <<(ostream& out,const List<U>& list);
@@ -200,6 +211,7 @@ int main()
     list1.push(1);
     list1.push(2);
     list1.push(3);
+    list1.pop();
 
    // cout<<list1.get(1);
     //cout<<list1.getElem(3);
