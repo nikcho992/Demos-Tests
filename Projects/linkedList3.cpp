@@ -18,11 +18,13 @@ class List
 {
 private:
     Box<T>* first;
+    Box<T>* last;
 public:
 
     List()
     {
         first=NULL;
+        last=NULL;
     }
 
     List(const List<T>& other)
@@ -60,6 +62,33 @@ public:
             delete save;
         }
     }
+
+     void enqueue(const T& other)
+    {
+
+        Box<T> *newbox = new Box<T>(other,NULL);
+
+        if (first == NULL){
+
+            first = newbox;
+            last = first;
+        }
+
+        last->next = newbox;
+        last = newbox;
+    }
+
+    void dequeue()
+    {
+        Box<T>* save;
+
+        save = first;
+        first = first->next;
+
+        delete save;
+
+    }
+
 
     List<T>& push (const T& other)
     {
@@ -152,27 +181,7 @@ public:
 
     }
 
-    List<T> removeElem(T elem)
-    {
-        Box<T>* crr=first,*save;
-
-        while(crr->next != NULL)
-        {
-            if(crr->data == elem)
-            {
-                save=crr->next;
-                crr->next=crr->next->next;
-                delete save;
-                break;
-            }
-            crr=crr->next;
-
-        }
-
-        return *this;
-    }
-	
-	 void pop()
+    void pop()
     {
          Box<T>* save;
 
@@ -182,11 +191,12 @@ public:
         delete save;
 
     }
-	
-	T top()
+
+    T top()
     {
-         return first->data;
+     return first->data;
     }
+
 
     template<class U>
     friend ostream& operator <<(ostream& out,const List<U>& list);
@@ -213,18 +223,27 @@ int main()
     List<int> list1;
     //List<int> list2;
     //List<int> list3(list1);
-    list1.push(1);
-    list1.push(2);
-    list1.push(3);
-    list1.pop();
+   // list1.push(1);
+   // list1.push(2);
+   // list1.push(3);
+   // list1.push(4);
+    list1.enqueue(100);
+    list1.enqueue(200);
+    list1.enqueue(300);
+    list1.enqueue(400);
+    cout<<list1<<endl;
+    list1.dequeue();
+    cout<<list1<<endl;
+   // cout<<list1.top()<<endl;
+    //list1.pop();
 
    // cout<<list1.get(1);
     //cout<<list1.getElem(3);
 
-    list1.addElement(888,2);
-    list1[1] = 7;
+   // list1.addElement(888,2);
+   // list1[1] = 7;
     //cout<<list1[0]<<endl;
-    cout<<list1;
+    //cout<<list1;
 
 
 }
