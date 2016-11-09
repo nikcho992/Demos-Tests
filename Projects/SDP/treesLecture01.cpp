@@ -38,6 +38,10 @@ private:
   	int height(Node<T>* subTreeRoot);
   	int countLeaves(Node<T>* subTreeRoot);
   	T& maxLeaf(Node<T>* subTreeRoot,T currentMax);
+  	void inorderPrint(Node<T>* subTreeRoot);
+  	void preorderPrint(Node<T>* subTreeRoot);
+  	void postorderPrint(Node<T>* subTreeRoot);
+  	void insertBOT (Node<T>*&subTreeRoot,const T& x);
 
 
 public:
@@ -54,6 +58,10 @@ public:
 	int height();
 	int countLeaves();
 	T& maxLeaf();
+	void inorderPrint();
+	void preorderPrint();
+	void postorderPrint();
+	BTree<T>& insertBOT (const T& x);
 };
 
 template<class T>
@@ -150,7 +158,7 @@ bool BTree<T>::member(const T& data,Node<T>* subTreeRoot) const
 template<class T>
 void BTree<T>::mapFunc(mapFn2<T> f)
 {
-	map(f,root);
+	mapFunc(f,root);
 }
 
 template<class T>
@@ -160,8 +168,8 @@ void BTree<T>::mapFunc(mapFn2<T> f,Node<T>* subTreeRoot)
 		return;
 
 	subTreeRoot->data = f(subTreeRoot->data);
-	map(f,subTreeRoot->left);
-	map(f,subTreeRoot->right);
+	mapFunc(f,subTreeRoot->left);
+	mapFunc(f,subTreeRoot->right);
 }
 
 int plusOne(const int& i)
@@ -309,15 +317,137 @@ T& BTree<T>::maxLeaf(Node<T>* subTreeRoot,T currentMax)
 	return leftMax > rightMax ? leftMax : rightMax;
 }
 
+template<class T>
+void BTree<T>::insertBOT (Node<T>* &subTreeRoot,const T& x)
+{
+
+	if (subTreeRoot == NULL)
+	{
+		subTreeRoot = new Node<T> (x,NULL,NULL);
+		return;
+	}
+
+	if (x <= subTreeRoot->data)
+	{
+		insertBOT (subTreeRoot->left,x);
+	} else {
+		insertBOT (subTreeRoot->right,x);
+	}
+
+}
+
+
+template<class T>
+BTree<T>& BTree<T>::insertBOT (const T& x)
+{
+	insertBOT (root,x);
+	return *this;
+}
+
+
+
+template<class T>
+void BTree<T>:: inorderPrint()
+{
+    inorderPrint(root);
+}
+
+template<class T>
+void BTree<T>:: inorderPrint(Node<T>* subTreeRoot)
+{
+    if(subTreeRoot == NULL)
+        return ;
+
+    if(subTreeRoot->left)
+        {
+            inorderPrint(subTreeRoot->left);
+        }
+
+    cout<<subTreeRoot->data<<" ";
+
+    if(subTreeRoot->right)
+        {
+            inorderPrint(subTreeRoot->right);
+        }
+}
+
+template<class T>
+void BTree<T>:: preorderPrint()
+{
+    preorderPrint(root);
+}
+
+template<class T>
+void BTree<T>:: preorderPrint(Node<T>* subTreeRoot)
+{
+    if(subTreeRoot == NULL)
+        return ;
+
+    if(subTreeRoot->left)
+        {
+            preorderPrint(subTreeRoot->left);
+        }
+
+    if(subTreeRoot->right)
+        {
+            preorderPrint(subTreeRoot->right);
+        }
+        cout<<subTreeRoot->data<<" ";
+}
+
+template<class T>
+void BTree<T>:: postorderPrint()
+{
+    postorderPrint(root);
+}
+
+template<class T>
+void BTree<T>:: postorderPrint(Node<T>* subTreeRoot)
+{
+    if(subTreeRoot == NULL)
+        return ;
+
+     cout<<subTreeRoot->data<<" ";
+
+    if(subTreeRoot->left)
+        {
+            postorderPrint(subTreeRoot->left);
+        }
+
+
+    if(subTreeRoot->right)
+        {
+            postorderPrint(subTreeRoot->right);
+        }
+}
+
 int main()
 {
 	BTree<int> tree;
 
-	tree.add(111,"").add(10,"L").add(12,"R").add(15,"LL").add(1,"LR");
-	tree.simplePrint();
+	//tree.add(,"").add(10,"L").add(12,"R").add(15,"LL").add(1,"LR");
+	//tree.simplePrint();
 
+	tree.insertBOT(56)
+	 .insertBOT(23)
+	 .insertBOT(68)
+	 .insertBOT(190)
+	 .insertBOT(41)
+	 .insertBOT(60)
+	 .insertBOT(65)
+	 .insertBOT(59);
+
+    //cout<<endl;
+    //tree.simplePrint();
     cout<<endl;
-    cout<<tree.searchMap(isHundred)<<endl;
+
+    tree.inorderPrint();
+    cout<<endl;
+    tree.preorderPrint();
+    cout<<endl;
+    tree.postorderPrint();
+   // cout<<tree.searchMap(isHundred)<<endl;
+
 
 	//if(tree.countLeaves() == 3)
 		//cout<<"Passed countLeaves() "<<endl;
@@ -331,9 +461,7 @@ int main()
 	//tree.map(plusOne);
 	//tree.simplePrint();
 
-	tree.mapFunc(multByTwo);
-	tree.simplePrint();
-	cout<<endl;
+	//tree.mapFunc(multByTwo);
 
  	/*cout<<endl;
   	if(tree.countEvens() == 2)
@@ -355,12 +483,10 @@ int main()
 	{
 		cout<<"Member1 not found."<<endl;
 	}
-
 	if(tree.member(1111))
 	{
 		cout<<"Member2 found."<<endl;
 	}
-
 	else
 	{
 		cout<<"Member2 not found."<<endl;
