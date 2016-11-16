@@ -1,4 +1,3 @@
-# hello-world
-First steps in learning git
+university life
 
 
