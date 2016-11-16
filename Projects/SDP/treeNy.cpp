@@ -512,7 +512,7 @@ bool BTree<T>::isFull(Node<T>* subTreeRoot,int height,int layer)
     if((subTreeRoot->left == NULL || subTreeRoot->right == NULL) && layer < height)
         return 0;
 
-    return isFull(subTreeRoot->left,height,layer + 1) ||
+    return isFull(subTreeRoot->left,height,layer + 1) &&
     isFull(subTreeRoot->right,height,layer + 1);
 
 }
