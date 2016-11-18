@@ -471,7 +471,7 @@ void BTree<T>:: postorderPrint(Node<T>* subTreeRoot)
 template<class T>
 int BTree<T>::longestConsecutive()
 {
-    return longestConsecutive(root,0,root->data + 1);
+    return longestConsecutive(root,0,root->data);
 }
 
 template<class T>
@@ -509,7 +509,7 @@ bool BTree<T>::isFull(Node<T>* subTreeRoot,int height,int layer)
     if(layer == height)
         return 1;
 
-    if((subTreeRoot->left == NULL || subTreeRoot->right == NULL) && layer < height)
+    if((subTreeRoot->left == NULL || subTreeRoot->right == NULL) && layer <= height)
         return 0;
 
     return isFull(subTreeRoot->left,height,layer + 1) && isFull(subTreeRoot->right,height,layer + 1);
