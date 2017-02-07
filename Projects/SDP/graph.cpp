@@ -225,5 +225,5 @@ int main()
 	//cout<<g.stringOfLabels(0,3,g);
 	//cout<<g.hasPath(1,"bz",g);
 	cout<<g.hasPathBFS(3,1,g);
-	//cout<<g.hasLoop();
+	//cout<<g.hasCycle(g);
 }
