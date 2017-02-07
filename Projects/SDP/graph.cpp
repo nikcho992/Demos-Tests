@@ -21,7 +21,7 @@ public:
 	void addEdge(const VT&,const VT&,const LT&); //start/end vertex + label for the edge
 	list<pair<VT,LT>> edgesFrom(const VT&) const; //returns a list IF ONLY the given vertex exists
 	void print();
-	bool hasLoop();
+	bool hasCycle(const Graph<VT,LT> g);
 	string stringOfLabels(VT start,VT end,const Graph<VT,LT> g);
 	bool hasPath(VT start,const char* str,const Graph<VT,LT> g);
 	LT getLabel(const VT& out,const VT& in);
@@ -54,8 +54,6 @@ void Graph<VT,LT>::print()
 {
 	for(const pair<VT,list<pair<VT,LT>>>& mapEl : edges)
 	{
-		//cout<<mapEl.first<<endl;
-
 		for(const pair<VT,LT>& edge : mapEl.second)
 		{
 			cout<<mapEl.first<<" -> "<<"("<<edge.first<<","<<edge.second<<")"<<endl;
@@ -65,19 +63,13 @@ void Graph<VT,LT>::print()
 }
 
 template<class VT,class LT>
-bool Graph<VT,LT>::hasLoop()
+bool Graph<VT,LT>::hasCycle(const Graph<VT,LT> g)
 {
-	set<VT> visited;
-
 	for(const pair<VT,list<pair<VT,LT>>>& mapEl : edges)
 	{
 		for(const pair<VT,LT>& edge : mapEl.second)
 		{
-			if(visited.count(edge.first) == 0)
-			{
-				visited.insert(edge.first);
-			}
-			else
+			if(hasPathBFS(edge.first,mapEl.first,g))
 			{
 				return true;
 			}
